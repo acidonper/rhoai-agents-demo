@@ -1,0 +1,17 @@
+{{- range $key, $value := $.Values.MCPServers }}
+apiVersion: mcp.networking.opendatahub.io/v1alpha1
+kind: MCPServerRegistration
+metadata:
+  name: {{ $value.name }}-registration
+  namespace: {{ $value.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  gatewayRef:
+    name: mcp-gateway
+    namespace: {{ $.Values.mcpGateway.namespace }}
+  targetService:
+    name: {{ $value.name }}
+    namespace: {{ $value.namespace }}
+    port: {{ $value.port | int }}
+{{ end }}
