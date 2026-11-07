@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: rhoai
-  namespace: openshift-gitops
+  namespace: rhoai-agents-project
 spec:
   project: default
   sources:
