@@ -2,7 +2,7 @@ rhoai:
   namespace: redhat-ods-operator
   subscription:
     name: rhods-operator
-    channel: stable
+    channel: stable-3.x
     installPlanApproval: Automatic
     source: redhat-operators
     sourceNamespace: openshift-marketplace
