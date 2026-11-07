@@ -50,6 +50,10 @@ MCPServers:
     name: jira-mcp-server
     namespace: mcp-server
     port: 8080
+    allowedTools:
+      - search_issues
+      - create_issue
+      - get_issue
   giteaMcpServer:
     image: docker.gitea.com/gitea-mcp-server:1.13.0
     host: http://gitea.rhoai-agents-project.svc.cluster.local:3000
@@ -58,6 +62,15 @@ MCPServers:
     name: gitea-mcp-server
     namespace: mcp-server
     port: 8080
+    allowedTools:
+      - branch_write
+      - create_or_update_file
+      - pull_request_write
+      - list_pull_requests
+      - pull_request_read
+      - commit_read
+      - get_file_contents
+      - pull_request_review_write
 
 certManager:
   namespace: cert-manager-operator

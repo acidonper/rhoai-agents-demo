@@ -14,4 +14,9 @@ spec:
     name: {{ $value.name }}
     namespace: {{ $value.namespace }}
     port: {{ $value.port | int }}
+  filtering:
+    allowedTools:
+      {{- range $value.allowedTools }}
+      - {{ . }}
+      {{- end }}
 {{ end }}
