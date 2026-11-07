@@ -35,3 +35,8 @@ rhoai:
     trainingoperator: Removed
     trustyai: Managed
     workbenches: Managed
+
+mcpGateway:
+  name: mcp-gateway
+  namespace: mcp-gateway
+  hostname: mcp.mcp-gateway.svc.cluster.local
