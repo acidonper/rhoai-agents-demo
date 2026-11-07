@@ -1,0 +1,21 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ $.Values.certManager.certificate.name }}
+  namespace: {{ $.Values.mcpGateway.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  secretName: {{ $.Values.certManager.certificate.secretName }}
+  dnsNames:
+    - {{ $.Values.mcpGateway.hostname | quote }}
+    {{- range $.Values.certManager.certificate.extraDnsNames }}
+    - {{ . | quote }}
+    {{- end }}
+  usages:
+    - server auth
+  issuerRef:
+    name: {{ $.Values.certManager.issuer.ca }}
+    kind: Issuer
+    group: cert-manager.io

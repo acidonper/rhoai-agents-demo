@@ -3,6 +3,8 @@ kind: Gateway
 metadata:
   name: {{ $.Values.mcpGateway.name }}
   namespace: {{ $.Values.mcpGateway.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "7"
 spec:
   gatewayClassName: data-science-gateway-class
   listeners:
@@ -30,5 +32,5 @@ spec:
         certificateRefs:
           - group: ''
             kind: Secret
-            name: default-ingress-cert
+            name: {{ $.Values.certManager.certificate.secretName }}
         mode: Terminate

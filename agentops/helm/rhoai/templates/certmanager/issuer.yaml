@@ -1,0 +1,42 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: {{ $.Values.certManager.issuer.selfSigned }}
+  namespace: {{ $.Values.mcpGateway.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ $.Values.certManager.issuer.ca }}
+  namespace: {{ $.Values.mcpGateway.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  isCA: true
+  commonName: {{ $.Values.certManager.issuer.ca }}
+  secretName: {{ $.Values.certManager.issuer.ca }}
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: {{ $.Values.certManager.issuer.selfSigned }}
+    kind: Issuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: {{ $.Values.certManager.issuer.ca }}
+  namespace: {{ $.Values.mcpGateway.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  ca:
+    secretName: {{ $.Values.certManager.issuer.ca }}

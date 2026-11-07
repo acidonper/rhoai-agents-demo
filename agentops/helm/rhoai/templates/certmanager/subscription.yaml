@@ -1,0 +1,13 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: {{ $.Values.certManager.subscription.name }}
+  namespace: {{ $.Values.certManager.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  name: {{ $.Values.certManager.subscription.name }}
+  channel: {{ $.Values.certManager.subscription.channel }}
+  installPlanApproval: {{ $.Values.certManager.subscription.installPlanApproval }}
+  source: {{ $.Values.certManager.subscription.source }}
+  sourceNamespace: {{ $.Values.certManager.subscription.sourceNamespace }}
