@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rhoai-agents-project
+  namespace: openshift-gitops
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/acidonper/rhoai-agents-demo.git
+      targetRevision: master
+      path: agentops/helm/rhoai-agents-project
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: "rhoai-agents-project"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

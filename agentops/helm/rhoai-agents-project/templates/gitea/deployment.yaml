@@ -1,0 +1,148 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitea
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: gitea
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: gitea
+  template:
+    metadata:
+      labels:
+        app: gitea
+      annotations:
+        checksum/entrypoint: {{ include (print $.Template.BasePath "/gitea/entrypoint-configmap.yaml") . | sha256sum }}
+    spec:
+      serviceAccountName: gitea
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: gitea
+          image: docker.gitea.com/gitea:28.3.0-rootless
+          imagePullPolicy: IfNotPresent
+          command:
+            - /usr/bin/dumb-init
+            - --
+          args:
+            - /bin/bash
+            - /scripts/run-gitea.sh
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            seccompProfile:
+              type: RuntimeDefault
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: gitea
+          env:
+            - name: APP_NAME
+              value: Gitea
+            - name: RUN_MODE
+              value: prod
+            - name: USER
+              value: git
+            - name: HOME
+              value: /var/lib/gitea/git
+            - name: GITEA_WORK_DIR
+              value: /var/lib/gitea
+            - name: GITEA_APP_INI
+              value: /etc/gitea/app.ini
+            - name: HTTP_PORT
+              value: "3000"
+            {{- if .Values.gitea.host }}
+            - name: ROOT_URL
+              value: {{ printf "https://%s/" .Values.gitea.host | quote }}
+            - name: GITEA__server__DOMAIN
+              value: {{ .Values.gitea.host | quote }}
+            - name: GITEA__server__ROOT_URL
+              value: {{ printf "https://%s/" .Values.gitea.host | quote }}
+            {{- end }}
+            - name: DISABLE_SSH
+              value: "true"
+            - name: GITEA__server__START_SSH_SERVER
+              value: "false"
+            - name: GITEA__server__PUBLIC_URL_DETECTION
+              value: auto
+            - name: DB_TYPE
+              value: sqlite3
+            - name: INSTALL_LOCK
+              value: "true"
+            - name: DISABLE_REGISTRATION
+              value: "true"
+            - name: REQUIRE_SIGNIN_VIEW
+              value: "false"
+            - name: TZ
+              value: UTC
+            - name: GITEA_ADMIN_USER
+              value: gitea
+            - name: GITEA_ADMIN_EMAIL
+              value: gitea@localhost
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 36
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/gitea
+            - name: config
+              mountPath: /etc/gitea
+            - name: entrypoint
+              mountPath: /scripts
+              readOnly: true
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: gitea
+        - name: config
+          emptyDir: {}
+        - name: entrypoint
+          configMap:
+            name: gitea-entrypoint
+            defaultMode: 0555

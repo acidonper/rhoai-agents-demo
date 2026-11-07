@@ -1,0 +1,3 @@
+gitea:
+  # Empty lets OpenShift assign <name>-<namespace>.<apps-domain>.
+  host: ""

@@ -1,2 +1,5 @@
 # rhoai-agents-demo
-# rhoai-agents-demo
+
+## Author
+
+Asier Cidon @RedHat

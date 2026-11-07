@@ -1,0 +1,41 @@
+apiVersion: datasciencecluster.opendatahub.io/v2
+kind: DataScienceCluster
+metadata:
+  name: default-dsc
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  components:
+    aipipelines:
+      argoWorkflowsControllers:
+        managementState: {{ $.Values.rhoai.components.aipipelines }}
+      managementState: {{ $.Values.rhoai.components.aipipelines }}
+    dashboard:
+      managementState: {{ $.Values.rhoai.components.dashboard }}
+    feastoperator:
+      managementState: {{ $.Values.rhoai.components.feastoperator }}
+    kserve:
+      managementState: {{ $.Values.rhoai.components.kserve }}
+    kueue:
+      managementState: {{ $.Values.rhoai.components.kueue }}
+    mcplifecycleoperator:
+      managementState: {{ $.Values.rhoai.components.mcplifecycleoperator }}
+    mlflowoperator:
+      managementState: {{ $.Values.rhoai.components.mlflowoperator }}
+    modelregistry:
+      managementState: {{ $.Values.rhoai.components.modelregistry }}
+      registriesNamespace: {{ $.Values.rhoai.modelRegistriesNamespace }}
+    ogx:
+      managementState: {{ $.Values.rhoai.components.ogx }}
+    ray:
+      managementState: {{ $.Values.rhoai.components.ray }}
+    trainer:
+      managementState: {{ $.Values.rhoai.components.trainer }}
+    trainingoperator:
+      managementState: {{ $.Values.rhoai.components.trainingoperator }}
+    trustyai:
+      managementState: {{ $.Values.rhoai.components.trustyai }}
+    workbenches:
+      managementState: {{ $.Values.rhoai.components.workbenches }}
+      workbenchNamespace: {{ $.Values.rhoai.workbenchNamespace }}

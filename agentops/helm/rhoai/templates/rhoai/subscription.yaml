@@ -1,0 +1,13 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: {{ $.Values.rhoai.subscription.name }}
+  namespace: {{ $.Values.rhoai.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  name: {{ $.Values.rhoai.subscription.name }}
+  channel: {{ $.Values.rhoai.subscription.channel }}
+  installPlanApproval: {{ $.Values.rhoai.subscription.installPlanApproval }}
+  source: {{ $.Values.rhoai.subscription.source }}
+  sourceNamespace: {{ $.Values.rhoai.subscription.sourceNamespace }}

@@ -1,0 +1,25 @@
+rhoai:
+  namespace: redhat-ods-operator
+  subscription:
+    name: rhods-operator
+    channel: stable
+    installPlanApproval: Automatic
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+  modelRegistriesNamespace: rhoai-model-registries
+  workbenchNamespace: rhods-notebooks
+  components:
+    aipipelines: Managed
+    dashboard: Managed
+    feastoperator: Removed
+    kserve: Removed
+    kueue: Removed
+    mcplifecycleoperator: Managed
+    mlflowoperator: Managed
+    modelregistry: Managed
+    ogx: Managed
+    ray: Removed
+    trainer: Removed
+    trainingoperator: Removed
+    trustyai: Managed
+    workbenches: Managed

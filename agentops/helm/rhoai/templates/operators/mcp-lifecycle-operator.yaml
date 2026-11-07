@@ -1,0 +1,21 @@
+apiVersion: components.platform.opendatahub.io/v1alpha1
+kind: MCPLifecycleOperator
+metadata:
+  name: default
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  managementState: {{ $.Values.rhoai.components.mcplifecycleoperator }}
+---
+apiVersion: opendatahub.io/v1alpha
+kind: OdhDashboardConfig
+metadata:
+  name: odh-dashboard-config
+  namespace: redhat-ods-applications
+  annotations:
+    argocd.argoproj.io/sync-wave: "7"
+    argocd.argoproj.io/sync-options: ServerSideApply=true,SkipDryRunOnMissingResource=true
+spec:
+  dashboardConfig:
+    mcpCatalog: {{ eq $.Values.rhoai.components.mcplifecycleoperator "Managed" }}

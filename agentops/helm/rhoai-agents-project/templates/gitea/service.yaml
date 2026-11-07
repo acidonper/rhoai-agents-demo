@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitea
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: gitea
+spec:
+  type: ClusterIP
+  selector:
+    app: gitea
+  ports:
+    - name: http
+      port: 3000
+      targetPort: http
+      protocol: TCP
