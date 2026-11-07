@@ -23,7 +23,8 @@ echo "ArgoCD admin password: $SECRET"
 # Install ArgoCD Application
 oc apply -f 01-application-project.yaml
 
-# Label the namespaces
+# The controller ServiceAccount is <argocd-name>-argocd-application-controller.
 oc create clusterrolebinding rhoai-agents-project-cluster-admin \
   --clusterrole=cluster-admin \
-  --serviceaccount=rhoai-agents-project:argocd-application-controller
+  --serviceaccount=rhoai-agents-project:argocd-argocd-application-controller \
+  --dry-run=client -o yaml | oc apply -f -
