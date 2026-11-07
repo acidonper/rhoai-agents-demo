@@ -1,3 +1,14 @@
+kuadrant:
+  namespace: kuadrant-system
+  operatorGroup: kuadrant
+  name: kuadrant
+  subscription:
+    name: rhcl-operator
+    channel: stable
+    installPlanApproval: Automatic
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+
 rhoai:
   namespace: redhat-ods-operator
   subscription:
@@ -9,6 +20,7 @@ rhoai:
   modelRegistriesNamespace: rhoai-model-registries
   workbenchNamespace: rhods-notebooks
   components:
+    aigateway: Managed
     aipipelines: Managed
     dashboard: Managed
     feastoperator: Removed

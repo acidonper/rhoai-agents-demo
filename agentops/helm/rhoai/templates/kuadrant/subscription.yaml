@@ -1,0 +1,13 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: {{ $.Values.kuadrant.subscription.name }}
+  namespace: {{ $.Values.kuadrant.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  name: {{ $.Values.kuadrant.subscription.name }}
+  channel: {{ $.Values.kuadrant.subscription.channel }}
+  installPlanApproval: {{ $.Values.kuadrant.subscription.installPlanApproval }}
+  source: {{ $.Values.kuadrant.subscription.source }}
+  sourceNamespace: {{ $.Values.kuadrant.subscription.sourceNamespace }}
