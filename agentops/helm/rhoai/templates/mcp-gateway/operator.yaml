@@ -2,21 +2,12 @@ apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   name: mcp-gateway
-  namespace: {{ $.Values.mcpGateway.namespace }}
+  namespace: openshift-operators
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   source: redhat-operators
   sourceNamespace: openshift-marketplace
+  installPlanApproval: Automatic
   name: mcp-gateway
   channel: preview
----
-apiVersion: operators.coreos.com/v1
-kind: OperatorGroup
-metadata:
-  name: mcp-gateway
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
-spec:
-  targetNamespaces:
-  - {{ $.Values.mcpGateway.namespace }}
