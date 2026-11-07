@@ -1,5 +1,5 @@
 {{- range $key, $value := $.Values.MCPServers }}
-apiVersion: mcp.networking.opendatahub.io/v1alpha1
+apiVersion: mcp.kuadrant.io/v1alpha1
 kind: MCPServerRegistration
 metadata:
   name: {{ $value.name }}-registration
