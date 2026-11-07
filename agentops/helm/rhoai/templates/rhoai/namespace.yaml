@@ -5,3 +5,4 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"
     openshift.io/display-name: Red Hat OpenShift AI
+    argocd.argoproj.io/managed-by: rhoai-agents-project
