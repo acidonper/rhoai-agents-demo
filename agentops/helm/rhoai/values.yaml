@@ -48,7 +48,7 @@ MCPServers:
     # Jira personal access token. Empty uses per-request Authorization passthrough.
     accessToken: "" 
     name: jira-mcp-server
-    namespace: mcp-server
+    namespace: mcp-gateway
     port: 8080
     allowedTools:
       - search_issues
@@ -60,7 +60,7 @@ MCPServers:
     # Gitea personal access token. Empty uses per-request Authorization passthrough.
     accessToken: "" 
     name: gitea-mcp-server
-    namespace: mcp-server
+    namespace: mcp-gateway
     port: 8080
     allowedTools:
       - branch_write
