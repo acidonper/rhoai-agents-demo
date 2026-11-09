@@ -7,15 +7,19 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"
     openshift.io/display-name: {{ $.Values.mcpGateway.namespace }}
+{{- $namespaces := list }}
 {{- range $key, $value := $.Values.MCPServers }}
+{{- $namespaces = append $namespaces $value.namespace }}
+{{- end }}
+{{- range $namespace := without ($namespaces | uniq) $.Values.mcpGateway.namespace }}
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ $value.namespace }}
+  name: {{ $namespace }}
   labels:
     argocd.argoproj.io/managed-by: {{ $.Values.gitopsInstance }}
   annotations:
     argocd.argoproj.io/sync-wave: "0"
-    openshift.io/display-name: {{ $value.namespace }}
+    openshift.io/display-name: {{ $namespace }}
 {{- end }}
