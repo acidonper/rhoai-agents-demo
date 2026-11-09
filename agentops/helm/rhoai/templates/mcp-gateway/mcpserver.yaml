@@ -33,22 +33,22 @@ spec:
     {{- if $value.args }}
     arguments:
       {{- range $value.args }}
-        - {{ . }}
-        {{- end }}
+      - {{ . | quote }}
+      {{- end }}
     {{- end }}
     port: {{ $value.port | int }}
     path: /mcp
-    {{- if $value.envs }} 
+    {{- if $value.envs }}
     env:
-      {{- range $keyenv, $valueenv := $value.envs }}
-      - name: {{ $keyenv }}
-        {{- if $valueenv.valueFrom }}
+      {{- range $value.envs }}
+      - name: {{ .name | quote }}
+        {{- if .valueFrom }}
         valueFrom:
           secretKeyRef:
-            name: {{ $valueenv.valueFrom.secretKeyRef.name }}
-            key: {{ $valueenv.valueFrom.secretKeyRef.key }}
+            name: {{ .valueFrom.secretKeyRef.name }}
+            key: {{ .valueFrom.secretKeyRef.key }}
         {{- else }}
-        value: {{ $valueenv.value | quote }}
+        value: {{ .value | quote }}
         {{- end }}
       {{- end }}
     {{- end }}
