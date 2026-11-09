@@ -30,6 +30,12 @@ spec:
       ref: {{ $value.image }}
       pullPolicy: IfNotPresent
   config:
+    {{- if $value.args }}
+    arguments:
+      {{- range $value.args }}
+        - {{ . }}
+        {{- end }}
+    {{- end }}
     port: {{ $value.port | int }}
     path: /mcp
     {{- if $value.accessToken }}

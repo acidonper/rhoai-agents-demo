@@ -44,6 +44,12 @@ mcpGateway:
 MCPServers:
   jiraMcpServer:
     image: ghcr.io/sooperset/mcp-atlassian:latest
+    args:
+      - "--transport"
+      - "sse"
+      - "--port"
+      - "8080"
+      - "-vv"
     host: http://jira.rhoai-agents-project.svc.cluster.local:8080
     # Jira personal access token. Empty uses per-request Authorization passthrough.
     accessToken: "" 
