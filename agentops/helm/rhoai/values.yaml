@@ -1,3 +1,5 @@
+gitopsInstance: rhoai-agents-project
+
 kuadrant:
   namespace: kuadrant-system
   operatorGroup: kuadrant
@@ -41,8 +43,6 @@ mcpGateway:
   namespace: mcp-gateway
   hostname: mcp.mcp-gateway.svc.cluster.local
 
-mcpserversnamespace: mcp-servers
-
 MCPServers:
   jiraMcpServer:
     image: ghcr.io/sooperset/mcp-atlassian:latest
@@ -67,7 +67,7 @@ MCPServers:
         value: "jira_issues"
     name: jira-mcp-server
     hint: "Jira MCP Server for searching issues and creating issues"
-    namespace: rhoai-agents-project
+    namespace: mcp-servers
     port: "8080"
     categories:
       - jira_mcp
@@ -89,7 +89,7 @@ MCPServers:
         value: http://gitea.rhoai-agents-project.svc.cluster.local:3000
     name: gitea-mcp-server
     hint: "Gitea MCP Server for writing and reading PRs and managing Git repositories"
-    namespace: rhoai-agents-project
+    namespace: mcp-servers
     port: "8080"
     categories:
       - git_mcp

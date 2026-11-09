@@ -3,17 +3,19 @@ kind: Namespace
 metadata:
   name: {{ $.Values.mcpGateway.namespace }}
   labels:
-    argocd.argoproj.io/managed-by: rhoai-agents-project
+    argocd.argoproj.io/managed-by: {{ $.Values.gitopsInstance }}
   annotations:
     argocd.argoproj.io/sync-wave: "0"
-    openshift.io/display-name: MCP Gateway
+    openshift.io/display-name: {{ $.Values.mcpGateway.namespace }}
+{{- range $key, $value := $.Values.MCPServers }}
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ $.Values.mcpserversnamespace }}
+  name: {{ $value.namespace }}
   labels:
-    argocd.argoproj.io/managed-by: rhoai-agents-project
+    argocd.argoproj.io/managed-by: {{ $.Values.gitopsInstance }}
   annotations:
     argocd.argoproj.io/sync-wave: "0"
-    openshift.io/display-name: MCP Agents Project
+    openshift.io/display-name: {{ $value.namespace }}
+{{- end }}

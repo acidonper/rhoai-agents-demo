@@ -4,7 +4,7 @@ apiVersion: mcp.kuadrant.io/v1alpha1
 kind: MCPServerRegistration
 metadata:
   name: {{ $value.name }}-registration
-  namespace: {{ $value.mcpserversnamespace }}
+  namespace: {{ $value.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "4"
 spec:
