@@ -12,7 +12,7 @@ spec:
     kind: HTTPRoute
     name: {{ $value.name }}
     namespace: {{ $.Values.mcpGateway.namespace }}
-  categories:
+  category:
     {{- range $value.categories }}
     - {{ . }}
     {{- end }}
