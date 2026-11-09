@@ -41,8 +41,9 @@ mcpGateway:
   namespace: mcp-gateway
   hostname: mcp.mcp-gateway.svc.cluster.local
 
+mcpserversnamespace: mcp-servers
+
 MCPServers:
-  namespace: mcp-servers
   jiraMcpServer:
     image: ghcr.io/sooperset/mcp-atlassian:latest
     args:

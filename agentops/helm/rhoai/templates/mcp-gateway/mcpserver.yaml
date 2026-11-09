@@ -40,16 +40,15 @@ spec:
     path: /mcp
     {{- if $value.envs }} 
     env:
-      {{- range $value.envs }}
-      - name: {{ .name }}
-        {{- if .valueFrom }}
+      {{- range $keyenv, $valueenv := $value.envs }}
+      - name: {{ $keyenv }}
+        {{- if $valueenv.valueFrom }}
         valueFrom:
           secretKeyRef:
-            name: {{ .valueFrom.secretKeyRef.name }}
-            key: {{ .valueFrom.secretKeyRef.key }}
-        {{- end }}
+            name: {{ $valueenv.valueFrom.secretKeyRef.name }}
+            key: {{ $valueenv.valueFrom.secretKeyRef.key }}
         {{- else }}
-        value: {{ .value | quote }}
+        value: {{ $valueenv.value | quote }}
         {{- end }}
       {{- end }}
     {{- end }}

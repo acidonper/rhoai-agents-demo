@@ -11,7 +11,7 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ $.Values.MCPServers.namespace }}
+  name: {{ $.Values.mcpserversnamespace }}
   labels:
     argocd.argoproj.io/managed-by: rhoai-agents-project
   annotations:
