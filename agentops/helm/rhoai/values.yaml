@@ -52,7 +52,7 @@ MCPServers:
       - "--port"
       - "8080"
       - "-vv"
-    accessToken: "" 
+    accessToken: "test" 
     envs:
       - name: JIRA_URL
         value: "https://asiercidon.atlassian.net"
@@ -76,7 +76,7 @@ MCPServers:
       - jira_issues 
   giteaMcpServer:
     image: docker.gitea.com/gitea-mcp-server:1.13.0
-    accessToken: "" 
+    accessToken: "test" 
     envs:
       - name: MCP_MODE
         value: http
