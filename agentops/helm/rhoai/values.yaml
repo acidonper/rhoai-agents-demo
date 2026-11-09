@@ -42,6 +42,7 @@ mcpGateway:
   hostname: mcp.mcp-gateway.svc.cluster.local
 
 MCPServers:
+  namespace: mcp-servers
   jiraMcpServer:
     image: ghcr.io/sooperset/mcp-atlassian:latest
     args:
@@ -50,10 +51,19 @@ MCPServers:
       - "--port"
       - "8080"
       - "-vv"
-    host: http://jira.rhoai-agents-project.svc.cluster.local:8080
-    # Jira personal access token. Empty uses per-request Authorization passthrough.
     accessToken: "" 
-    env: JIRA_ACCESS_TOKEN
+    envs:
+      - name: JIRA_URL
+        value: "https://asiercidon.atlassian.net"
+      - name: JIRA_USERNAME
+        value: "asier.cidon@gmail.com"
+      - name: JIRA_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: jira-mcp-server
+            key: token
+      - name: TOOLSETS
+        value: "jira_issues"
     name: jira-mcp-server
     hint: "Jira MCP Server for searching issues and creating issues"
     namespace: rhoai-agents-project
@@ -62,19 +72,22 @@ MCPServers:
       - jira_mcp
       - issue_management
     tools:
-      - search_issues
-      - create_issue
-      - get_issue
+      - jira_issues 
   giteaMcpServer:
     image: docker.gitea.com/gitea-mcp-server:1.13.0
-    host: http://gitea.rhoai-agents-project.svc.cluster.local:3000
     accessToken: "" 
-    env: GITEA_ACCESS_TOKEN
+    envs: 
+      - name: GITEA_ACCESS_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: gitea-mcp-server
+            key: token
+      - name: GITEA_HOST
+        value: http://gitea.rhoai-agents-project.svc.cluster.local:3000
     name: gitea-mcp-server
     hint: "Gitea MCP Server for writing and reading PRs and managing Git repositories"
     namespace: rhoai-agents-project
     port: "8080"
-    # spec.category allows at most 3 items. Tool names belong in tags (max 10).
     categories:
       - git_mcp
       - pull_request

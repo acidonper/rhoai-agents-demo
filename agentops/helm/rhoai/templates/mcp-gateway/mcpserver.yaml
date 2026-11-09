@@ -38,13 +38,20 @@ spec:
     {{- end }}
     port: {{ $value.port | int }}
     path: /mcp
-    {{- if $value.accessToken }}
+    {{- if $value.envs }} 
     env:
-      - name: {{ $value.env }}
+      {{- range $value.envs }}
+      - name: {{ .name }}
+        {{- if .valueFrom }}
         valueFrom:
           secretKeyRef:
-            name: {{ $value.name }}
-            key: token
+            name: {{ .valueFrom.secretKeyRef.name }}
+            key: {{ .valueFrom.secretKeyRef.key }}
+        {{- end }}
+        {{- else }}
+        value: {{ .value | quote }}
+        {{- end }}
+      {{- end }}
     {{- end }}
     storage:
       - path: /tmp

@@ -7,3 +7,13 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"
     openshift.io/display-name: MCP Gateway
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $.Values.MCPServers.namespace }}
+  labels:
+    argocd.argoproj.io/managed-by: rhoai-agents-project
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+    openshift.io/display-name: MCP Agents Project
