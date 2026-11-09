@@ -7,16 +7,14 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "4"
 spec:
-  gatewayRef:
-    name: mcp-gateway
-    namespace: {{ $.Values.mcpGateway.namespace }}
-  targetService:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: HTTPRoute
     name: {{ $value.name }}
-    namespace: {{ $value.namespace }}
-    port: {{ $value.port | int }}
-  filtering:
-    allowedTools:
-      {{- range $value.allowedTools }}
-      - {{ . }}
-      {{- end }}
-{{ end }}
+    namespace: {{ $.Values.mcpGateway.namespace }}
+  categories:
+    {{- range $value.categories }}
+    - {{ . }}
+    {{- end }}
+  hint: {{ $value.hint }}
+{{- end }}
