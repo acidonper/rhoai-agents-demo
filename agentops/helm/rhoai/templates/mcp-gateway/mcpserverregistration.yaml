@@ -17,4 +17,6 @@ spec:
     - {{ . }}
     {{- end }}
   hint: {{ $value.hint }}
+  config:
+    port: {{ $value.port | int }}
 {{- end }}
