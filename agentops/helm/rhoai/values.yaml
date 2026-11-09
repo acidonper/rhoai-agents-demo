@@ -53,6 +53,9 @@ MCPServers:
     namespace: rhoai-agents-project
     port: "8080"
     categories:
+      - jira_mcp
+      - issue_management
+    tools:
       - search_issues
       - create_issue
       - get_issue
@@ -65,7 +68,12 @@ MCPServers:
     hint: "Gitea MCP Server for writing and reading PRs and managing Git repositories"
     namespace: rhoai-agents-project
     port: "8080"
+    # spec.category allows at most 3 items. Tool names belong in tags (max 10).
     categories:
+      - git_mcp
+      - pull_request
+      - gitea_mcp
+    tools:
       - branch_write
       - create_or_update_file
       - pull_request_write
