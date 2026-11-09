@@ -32,16 +32,9 @@ spec:
   config:
     port: {{ $value.port | int }}
     path: /mcp
-    arguments:
-      - -t
-      - http
-      - -p
-      - {{ $value.port | int | quote }}
-      - -H
-      - {{ $value.host | quote }}
     {{- if $value.accessToken }}
     env:
-      - name: GITEA_ACCESS_TOKEN
+      - name: {{ $value.env }}
         valueFrom:
           secretKeyRef:
             name: {{ $value.name }}

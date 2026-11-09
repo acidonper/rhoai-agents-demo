@@ -47,6 +47,7 @@ MCPServers:
     host: http://jira.rhoai-agents-project.svc.cluster.local:8080
     # Jira personal access token. Empty uses per-request Authorization passthrough.
     accessToken: "" 
+    env: JIRA_ACCESS_TOKEN
     name: jira-mcp-server
     hint: "Jira MCP Server for searching issues and creating issues"
     namespace: rhoai-agents-project
@@ -58,8 +59,8 @@ MCPServers:
   giteaMcpServer:
     image: docker.gitea.com/gitea-mcp-server:1.13.0
     host: http://gitea.rhoai-agents-project.svc.cluster.local:3000
-    # Gitea personal access token. Empty uses per-request Authorization passthrough.
     accessToken: "" 
+    env: GITEA_ACCESS_TOKEN
     name: gitea-mcp-server
     hint: "Gitea MCP Server for writing and reading PRs and managing Git repositories"
     namespace: rhoai-agents-project
